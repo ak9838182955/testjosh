@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Figma Land – Landing Page (HTML + CSS only)</title>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    :root{
+      --bg-dark:#0b0f19;
+      --text:#1b1f2a;
+      --muted:#6f7787;
+      --white:#ffffff;
+      --primary:#2f80ed;
+      --primary-2:#56ccf2;
+      --card:#f7f9fc;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:#fff;}
+
+    /* --- NAV --- */
+    .nav{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:20px 40px;}
+    .logo{display:flex;align-items:center;gap:10px;color:#fff;font-weight:700;letter-spacing:.6px}
+    .logo-dot{width:12px;height:12px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--primary-2));display:inline-block}
+    .nav ul{list-style:none;display:flex;gap:26px;margin:0;padding:0}
+    .nav a{color:#dfe6f9;text-decoration:none;font-weight:500;opacity:.9}
+    .nav a:hover{opacity:1}
+    .nav-right{display:flex;align-items:start;gap:18px}
+
+    .social a{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,.35);color:#fff;text-decoration:none;font-size:14px}
+    .try-btn{padding:9px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.35);color:#fff;text-decoration:none}
+
+    /* --- HERO --- */
+    .hero{
+      position:relative;
+      min-height:67vh;
+      display:grid;
+      place-items:center;
+      text-align:center;
+      color:#fff;
+      background:
+        linear-gradient(180deg, rgba(11,15,25,.75), rgba(11,15,25,.5)),
+        url('akash1.jpg') center/cover no-repeat;
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 120px), 50% 100%, 0 calc(100% - 120px));
+    }
+    .hero .inner{padding:120px 24px 80px;max-width:980px;margin:0 auto}
+    .hero h1{font-size:clamp(32px,6vw,56px);line-height:1.1;margin:18px 0 12px;font-weight:700}
+    .hero p{font-size:clamp(14px,2.2vw,18px);opacity:.9;margin:0 0 26px;}
+    .cta{display:inline-block;background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff;text-decoration:none;font-weight:700;border:none;border-radius:999px;padding:14px 28px;box-shadow:0 8px 22px rgba(47,128,237,.35)}
+    .cta:active{transform:translateY(1px)}
+
+    /* --- FEATURES --- */
+    .features{
+      padding:80px 24px 100px;
+      background:#fff;
+      margin-top:-180px;
+    }
+    .container{max-width:1100px;margin:0 auto}
+    .section-title{text-align:center;margin-bottom:14px;font-weight:700;font-size:32px}
+    .section-sub{text-align:center;color:var(--muted);max-width:760px;margin: 48px auto 48px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+    .card{background:var(--card);border:1px solid #eceff5;border-radius:18px;padding:26px;display:flex;flex-direction:column;gap:10px}
+    .icon{width:40px;height:40px;border-radius:10px;display:inline-grid;place-items:center;background:linear-gradient(135deg,var(--primary-2),var(--primary));color:#fff}
+    .card h3{margin:6px 0 2px;font-size:18px}
+    .card p{margin:0;color:#5c6577;font-size:14px}
+
+    /* --- YOUTUBE VIDEO SECTION --- */
+    .video-section {
+      padding: 60px 24px;
+      background: #f9fafc;
+      text-align: center;
+    }
+    .video-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .video-placeholder {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      cursor: pointer;
+    }
+    .video-placeholder img {
+      width: 100%;
+      display: block;
+    }
+    .play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px;
+      height: 80px;
+      background: rgba(255,255,255,0.9);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+    .play-button:hover {
+      background: var(--primary);
+    }
+    .play-button::after {
+      content: "";
+      display: block;
+      width: 0;
+      height: 0;
+      border-top: 15px solid transparent;
+      border-bottom: 15px solid transparent;
+      border-left: 25px solid var(--primary);
+      margin-left: 5px;
+    }
+    .play-button:hover::after {
+      border-left-color: white;
+    }
+
+    /* --- BOTTOM SECTION --- */
+    .bottom-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 80px 10%;
+      background: #fff;
+      flex-wrap: wrap;
+    }
+
+    .bottom-left {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .bottom-left h2 {
+      font-size: 28px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .bottom-left p {
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .bottom-left .btn {
+      background: #2f80ed;
+      color: #fff;
+      padding: 12px 26px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .bottom-right {
+      flex: 1;
+      min-width: 300px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .bottom-right img {
+      max-width: 100%;
+    }
+
+    /* --- NEWSLETTER SECTION --- */
+    .newsletter-section {
+      padding: 100px 24px;
+      background: #f9fafc;
+      position: relative;
+    }
+    
+    .newsletter-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 60px;
+      flex-wrap: wrap;
+    }
+    
+    .newsletter-image {
+      flex: 1;
+      min-width: 300px;
+    }
+    
+    .newsletter-image img {
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .newsletter-content {
+      flex: 1;
+      min-width: 300px;
+      text-align: center;
+    }
+    
+    .newsletter-content h3 {
+      font-size: 28px;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    
+    .newsletter-content .subtitle {
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: block;
+    }
+    
+    .newsletter-content p {
+      color: var(--muted);
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+    
+    .newsletter-form {
+      display: flex;
+      max-width: 460px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 50px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    
+    .newsletter-form input {
+      flex: 1;
+      padding: 16px 24px;
+      border: none;
+      outline: none;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    .newsletter-form button {
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      color: white;
+      border: none;
+      padding: 16px 32px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .newsletter-form button:hover {
+      opacity: 0.9;
+      transform: translateX(2px);
+    }
+
+    /* --- FOOTER --- */
+    footer{padding:40px 24px 70px;text-align:center;color:#8a93a7}
+
+    /* --- RESPONSIVE --- */
+    @media (max-width:960px){
+      .grid{grid-template-columns:1fr 1fr}
+      .nav ul{display:none}
+      .newsletter-container {
+        flex-direction: column;
+        gap: 40px;
+      }
+      .newsletter-content {
+        order: 1;
+      }
+      .newsletter-image {
+        order: 2;
+      }
+    }
+    @media (max-width:640px){
+      .grid{grid-template-columns:1fr}
+      .nav{padding:12px 18px}
+      .nav-right .try-btn{display:none}
+      .hero {
+        clip-path: polygon(0 0, 100% 0, 100% calc(100% - 60px), 50% 100%, 0 calc(100% - 60px));
+      }
+      .features {
+        margin-top: -100px;
+      }
+      .play-button {
+        width: 60px;
+        height: 60px;
+      }
+      .newsletter-form {
+        flex-direction: column;
+        border-radius: 12px;
+      }
+      .newsletter-form input,
+      .newsletter-form button {
+        width: 100%;
+        border-radius: 12px;
+      }
+    }
+
+    /* Partners Section */
+.partners {
+  text-align: center;
+  padding: 80px 10%;
+  background: #fff;
+}
+
+.partners h2 {
+  font-size: 32px;
+  margin-bottom: 10px;
+  color: #222;
+}
+
+.partners p {
+  color: #666;
+  margin-bottom: 40px;
+  font-size: 16px;
+}
+
+.partners-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  max-width: 1000px;
+  margin: 0 auto 40px;
+}
+
+.partner-card {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  transition: box-shadow 0.3s ease;
+}
+
+.partner-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.partner-card p {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 12px;
+}
+
+.partner-card img {
+  max-width: 120px;
+  height: auto;
+}
+
+.partners-btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 30px;
+  background: #2f80ed;
+  color: #fff;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+}
+/* Testimonials Section */
+.testimonials {
+  text-align: center;
+  padding: 80px 10%;
+  background: #fff;
+}
+
+.testimonials h2 {
+  font-size: 32px;
+  margin-bottom: 30px;
+}
+
+.testimonial-carousel {
+  position: relative;
+  max-width: 700px;
+  margin: auto;
+}
+
+.testimonial {
+  display: none;
+  animation: fade 1s;
+}
+
+.testimonial.active {
+  display: block;
+}
+
+.company-logo {
+  max-width: 120px;
+  margin: 0 auto 20px;
+  display: block;
+}
+
+.testimonial-text {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.author img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.author h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.author p {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.dots {
+  margin-top: 20px;
+}
+
+.dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background: #ccc;
+  border-radius: 50%;
+  margin: 0 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+ .contact-section {
+      padding: 60px 20px;
+    }
+
+    .contact-section h2 {
+      font-size: 32px;
+      margin-bottom: 10px;
+      color: #1f2532;
+    }
+
+    .contact-section p {
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 40px;
+    }
+
+    .contact-container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    /* Contact Form */
+    .contact-form {
+      background: #fff;
+      border-radius: 12px;
+      padding: 30px 20px;
+      width: 300px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+
+    .contact-form h3 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #1f2532;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: none;
+      outline: none;
+      background: #f3f3f3;
+      border-radius: 25px;
+      font-size: 14px;
+    }
+
+    .contact-form textarea {
+      border-radius: 10px;
+      resize: none;
+      height: 100px;
+    }
+
+    .contact-form button {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      border: none;
+      background: #1e90ff;
+      color: #fff;
+      border-radius: 25px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .contact-form button:hover {
+      background: #0d6efd;
+    }
+
+    /* Contact Details */
+    .contact-details {
+      flex: 1;
+      text-align: left;
+      max-width: 500px;
+    }
+
+    .info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .info div {
+      text-align: center;
+      flex: 1;
+      min-width: 120px;
+    }
+
+    .info i {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: #1e90ff;
+    }
+
+    .map {
+      width: 100%;
+      height: 200px;
+      margin-top: 20px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    /* Social Links */
+    .social {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .social a {
+      margin: 0 10px;
+      text-decoration: none;
+      font-size: 20px;
+      color: #1e90ff;
+      transition: 0.3s;
+    }
+
+    .social a:hover {
+      color: #0d6efd;
+    }
+
+.dot.active {
+  background: #2f80ed;
+}
+
+@keyframes fade {
+  from { opacity: 0.4; }
+  to { opacity: 1; }
+}
+
+.pricing-section {
+  background-color: #252B42;
+  padding: 80px 24px;
+}
+
+.pricing-section .container {
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.pricing-cards {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.pricing-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 40px 30px;
+  width: 100%;
+  max-width: 335px;
+  text-align: center;
+}
+
+.pricing-card.highlight {
+  padding: 60px 30px;
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  position: relative;
+  z-index: 1;
+}
+
+/* Add other styles similarly */
+    .pricing-section {
+      padding: 60px 20px;
+    }
+
+    .pricing-section h2 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .pricing-section p {
+      font-size: 16px;
+      color: #d1d5db;
+      margin-bottom: 50px;
+    }
+
+    .pricing-cards {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      background: #fff;
+      color: #000;
+      border-radius: 10px;
+      width: 280px;
+      padding: 30px 20px;
+      box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+      transition: 0.3s ease-in-out;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card.highlight {
+      background: #1e90ff;
+      color: #fff;
+    }
+
+    .card h3 {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .price {
+      font-size: 36px;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+
+    .price span {
+      font-size: 18px;
+    }
+
+
+
+    .contact-info {
+      margin-top: 15px;
+    }
+
+    .contact-info p {
+      display: flex;
+      align-items: center;
+      margin: 8px 0;
+      font-size: 14px;
+    }
+
+    .contact-info i {
+      margin-right: 10px;
+    }
+
+    .social-icons {
+      margin-top: 20px;
+    }
+
+    .social-icons a {
+      margin-right: 10px;
+      font-size: 20px;
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .social-icons a:hover {
+      color: #1da1f2;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 25px;
+      background: #1e90ff;
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 25px;
+      transition: 0.3s;
+    }
+
+    .card.highlight .btn {
+      background: #fff;
+      color: #1e90ff;
+    }
+
+    .btn:hover {
+      background: #0d6efd;
+    }
+     p span {
+    display: block;
+    margin-bottom: 8px; 
+      .contact-section {
+    text-align: center;
+    padding: 60px 20px;
+  }
+  
+  .contact-section h2 {
+    margin: 0 auto;
+    display: inline-block;
+  }
+  
+  .contact-section p {
+    margin: 16px auto 0;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }/* optional spacing */
+  }
+
+    .contact-section {
+    text-align: center;
+    padding: 60px 20px;
+  }
+  
+  .contact-section h2 {
+    margin: 0 auto;
+    display: inline-block;
+  }
+  
+  .contact-section p {
+    margin: 16px auto 0;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+
+      ul {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0;
+    }
+
+    ul li {
+      margin: 10px 0;
+      font-size: 14px;
+    }
+     footer {
+      background-color: #1e2235;
+      color: white;
+      padding: 50px 80px;
+    }
+
+    .footer-container {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .footer-column {
+      flex: 1;
+      margin: 10px;
+      min-width: 150px;
+    }
+
+    .footer-column h4 {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .footer-column ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-column ul li {
+      margin: 8px 0;
+      font-size: 14px;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .footer-column ul li:hover {
+      color: #1da1f2;
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+<nav class="nav">
+  <div class="logo"></div>
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Product</a></li>
+    <li><a href="#">Pricing</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Contact</a></li>
+    <li class="logo-img"><a href="#"><img src="./logo.png" alt="Logo" style="height: 30px; width: auto; vertical-align: middle;margin-top: -8px;"></a></li>
+  </ul>
+  <div class="nav-right">
+         <div class="social-icons" style="display: flex; gap: 20px;margin-right: 300px;margin-top: -3px;">
+        <a href="#" style="color: white; font-size: 20px;"><i class="fab fa-twitter"></i></a>
+        <a href="#" style="color: white; font-size: 20px;"><i class="fab fa-facebook"></i></a>
+        <a href="#" style="color: white; font-size: 20px;"><i class="fab fa-linkedin"></i></a>
+      </div>
+    </div>
+  
+  </div>
+</nav>
+
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="inner">
+      <h1>The best products<br/>start with Figma</h1
+      <p>Most calendars are designed for teams. Slate is designed for freelancers.</p>
+      <a class="cta" href="#features">Try For Free</a>
+    </div>
+  </header>
+
+  <!-- FEATURES -->
+  <section id="features" class="features" style="margin-top: -10px;">
+    <div class="container">
+      <h2 class="section-title">Features</h2>
+      <p class="section-sub">Most calendars are designed for teams. Slate is designed for freelancers</p>
+
+      <div class="grid">
+        <article class="card">
+          <span class="icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 17.25V21h3.75l11-11.03-3.75-3.75L3 17.25z" fill="white"/><path d="M20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="white"/></svg>
+          </span>
+          <h3>OpenType features
+            <br>Variable fonts</h3>
+          <p>Slate helps you see how many days you need to work to reach your project goal for the month.</p>
+        </article>
+
+        <article class="card">
+          <span class="icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M3 3h2v18H3V3zm8 6h2v12h-2V9zm8-4h2v16h-2V5z"/></svg>
+          </span>
+          <h3>Design with real data</h3>
+          <p>Bring real content into your designs to make better decisions and deliver faster.</p>
+        </article>
+
+        <article class="card">
+          <span class="icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+          </span>
+          <h3>Fastest way to
+            <br>take action</h3>
+          <p>Use intuitive shortcuts and components to move from idea to shipped product quickly.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- YOUTUBE VIDEO SECTION -->
+  <section class="video-section">
+    <div class="video-container">
+      <h2 class="section-title">Watch Our Video</h2>
+      <p class="section-sub">Get inspired by our latest work</p>
+      
+      <div class="video-placeholder" onclick="playVideo()">
+        <!-- YouTube Thumbnail (Replace with your thumbnail or use YouTube's) -->
+        <img src="https://img.youtube.com/vi/ZcKJ6LPjDJo/maxresdefault.jpg" alt="YouTube Video">
+        <div class="play-button"></div>
+      </div>
+      
+      <!-- Hidden YouTube Iframe (Will appear on click) -->
+      <iframe id="youtube-video" width="100%" height="500" src="https://www.youtube.com/embed/ZcKJ6LPjDJo?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display:none; border-radius:12px;"></iframe>
+    </div>
+  </section>
+
+   <section class="bottom-section">
+    <div class="bottom-left">
+      <h2>Fastest way to organize</h2>
+      <p>Most calendars are designed for teams. Slate is designed for freelancers</p>
+      <a href="#" class="btn">Try For Free</a>
+    </div>
+    <div class="bottom-right">
+      <img src="akash2.PNG" alt="Laptop with app">
+    </div>
+  </section>
+
+  <!-- NEWSLETTER SECTION -->
+  <section class="newsletter-section">
+    <div class="newsletter-container">
+      <div class="newsletter-image">
+        <img src="AKASH3.png" alt="Newsletter illustration">
+      </div>
+      <div class="newsletter-content">
+        <span class="subtitle">At your fingertips</span>
+        <h3>Lightning fast prototyping</h3>
+        <p>Subscribe to our Newsletter<br>Available exclusively on Figmaland</p>
+        
+        <form class="newsletter-form">
+          <input type="email" placeholder="Your Email" required>
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+  </section>
+<!-- Partners Section -->
+<section class="partners">
+  <h2>Partners</h2>
+  <p>Most calendars are designed for teams.<br>Slate is designed for freelancers</p>
+  
+  <div class="partners-grid">
+    <div class="partner-card">
+      <p>Client Name</p>
+      <img src="google.png" alt="Google Logo">
+    </div>
+    <div class="partner-card">
+      <p>Client Name</p>
+      <img src="amzone.png" alt="Amazon Logo">
+    </div>
+    <div class="partner-card">
+      <p>Client Name</p>
+      <img src="micro.png" alt="Microsoft Logo">
+    </div>
+    <div class="partner-card">
+      <p>Client Name</p>
+      <img src="uber.png" alt="Uber Logo">
+    </div>
+    <div class="partner-card">
+      <p>Client Name</p>
+      <img src="deoup.png" alt="Dropbox Logo">
+    </div>
+    <div class="partner-card">
+      <p>Client Name</p>
+      <img src="google.png" alt="Google Logo">
+    </div>
+    <div class="partner-card">
+      <p>Client Name</p>
+      <img src="uber.png" alt="Uber Logo">
+    </div>
+    <div class="partner-card">
+      <p>Client Name</p>
+      <img src="amzone.png" alt="Amazon Logo">
+    </div>
+  </div>
+
+  <a href="#" class="partners-btn">Try For Free</a>
+</section>
+<section class="testimonials">
+  <h2>Testimonials</h2>
+
+  <div class="testimonial-carousel">
+    <!-- Slide 1 -->
+    <div class="testimonial active">
+      <img src="ibm.png" alt="IBM Logo" class="company-logo">
+      <p class="testimonial-text">
+        Most calendars are designed for teams. Slate is designed for freelancers
+        who want a simple way to plan their schedule.
+      </p>
+      <div class="author">
+        <img src="man.png" alt="John Doe">
+        <div>
+          <h4>John Doe</h4>
+          <p>UI designer</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="testimonial">
+      <img src="micro.png" alt="Microsoft Logo" class="company-logo">
+      <p class="testimonial-text">
+        Slate has transformed the way I work. Now I can manage projects faster and better.
+      </p>
+      <div class="author">
+        <img src="man.png" alt="Jane Smith">
+        <div>
+          <h4>Jane Smith</h4>
+          <p>Product Manager</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="testimonial">
+      <img src="google.png" alt="Google Logo" class="company-logo">
+      <p class="testimonial-text">
+        A perfect tool for freelancers. Easy, fast, and highly effective for scheduling tasks.
+      </p>
+      <div class="author">
+        <img src="man.png" alt="Alex Lee">
+        <div>
+          <h4>Alex Lee</h4>
+          <p>Developer</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dots -->
+  <div class="dots">
+    <span class="dot active"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+  </div>
+</section>
+
+ <section class="pricing-section" style="background-color: #252B42; padding: 80px 24px;">
+  <div class="container" style="max-width: 1100px; margin: 0 auto; text-align: center;">
+    <h2 style="font-size: 32px; font-weight: 700; margin-bottom: 14px; color: white;">Pricing</h2>
+    <p style="color: rgba(255,255,255,0.7); max-width: 760px; margin: 0 auto 48px; font-size: 16px; line-height: 1.6;">
+      Most calendars are designed for teams. Slate is designed for freelancers
+    </p>
+    
+    <div class="pricing-cards" style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
+      <!-- Free Plan -->
+      <div class="card" style="background: #fff; border-radius: 10px; padding: 40px 30px; width: 100%; max-width: 335px; text-align: center;">
+        <h3 style="font-size: 20px; margin-bottom: 10px; color: #252B42;">FREE</h3>
+        <p style="color: #6f7787; margin-bottom: 20px;">Organize across all apps by hand</p>
+        <div class="price" style="font-size: 56px; font-weight: 700; color: #252B42; margin-bottom: 20px;">
+          0<span style="font-size: 32px;">$</span> 
+          <small style="display: block; font-size: 16px; font-weight: 400; color: #6f7787;">Per Month</small>
+        </div>
+        <ul style="list-style: none; padding: 0; margin: 0 0 30px 0;">
+          <li style="padding: 8px 0; color: #252B42;">Pricing Feature</li>
+          <li style="padding: 8px 0; color: #252B42;">Pricing Feature</li>
+          <li style="padding: 8px 0; color: #252B42;">Pricing Feature</li>
+          <li style="padding: 8px 0; color: #252B42;">Pricing Feature</li>
+          <li style="padding: 8px 0; color: #252B42;">Pricing Feature</li>
+        </ul>
+        <a href="#" class="btn" style="display: inline-block; background: #2f80ed; color: white; text-decoration: none; padding: 12px 28px; border-radius: 35px; font-weight: 600;">Order Now</a>
+      </div>
+
+      <!-- Standard Plan (Highlighted) -->
+      <div class="card highlight" style="background: #2091F9; border-radius: 10px; padding: 60px 30px; width: 100%; max-width: 335px; text-align: center; transform: scale(1.05); box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative; z-index: 1;">
+        <h3 style="font-size: 20px; margin-bottom: 10px; color: #252B42;">STANDARD</h3>
+        <p style="color: #6f7787; margin-bottom: 20px;">Organize across all apps by hand</p>
+        <div class="price" style="font-size: 56px; font-weight: 700; color: #252B42; margin-bottom: 20px;">
+          10<span style="font-size: 32px;">$</span> 
+          <small style="display: block; font-size: 16px; font-weight: 400; color: #6f7787;">Per Month</small>
+        </div>
+        <ul style="list-style: none; padding: 0; margin: 0 0 30px 0;">
+          <li style="padding: 8px 0; color: #252B42;">Pricing Feature</li>
+          <li style="padding: 8px 0; color: #252B42;">Pricing Feature</li>
+          <li style="padding: 8px 0; color: #252B42;">Pricing Feature</li>
+          <li style="padding: 8px 0; color: #252B42;">Pricing Feature</li>
+          <li style="padding: 8px 0; color: #252B42;">Pricing Feature</li>
+        </ul>
+        <a href="#" class="btn" style="display: inline-block; background: #2f80ed; color: white; text-decoration: none; padding: 12px 28px; border-radius: 35px; font-weight: 600;">Order Now</a>
+      </div>
+
+      <!-- Business Plan -->
+      <div class="card" style="background: #fff; border-radius: 10px; padding: 40px 30px; width: 100%; max-width: 335px; text-align: center;">
+        <h3 style="font-size: 20px; margin-bottom: 10px; color: #252B42;">BUSINESS</h3>
+        <p style="color: #6f7787; margin-bottom: 20px;">Organize across all apps by hand</p>
+        <div class="price" style="font-size: 56px; font-weight: 700; color: #252B42; margin-bottom: 20px;">
+          99<span style="font-size: 32px;">$</span> 
+          <small style="display: block; font-size: 16px; font-weight: 400; color: #6f7787;">Per Month</small>
+        </div>
+        <ul style="list-style: none; padding: 0; margin: 0 0 30px 0;">
+          <li style="padding: 8px 0; color: #252B42;">Pricing Feature</li>
+          <li style="padding: 8px 0; color: #252B42;">Pricing Feature</li>
+          <li style="padding: 8px 0; color: #252B42;">Pricing Feature</li>
+          <li style="padding: 8px 0; color: #252B42;">Pricing Feature</li>
+          <li style="padding: 8px 0; color: #252B42;">Pricing Feature</li>
+        </ul>
+        <a href="#" class="btn" style="display: inline-block; background: #2f80ed; color: white; text-decoration: none; padding: 12px 28px; border-radius: 35px; font-weight: 600;">Order Now</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <section class="contact-section" style="text-align: center; padding: 60px 20px;">
+  <h2 style="margin: 0 auto; display: inline-block;">Contact Us</h2>
+  <p style="margin: 16px auto 0; max-width: 500px; display: flex; flex-direction: column; gap: 8px;">
+    <span>Most calendars are designed for teams.</span>
+    <span>Slate is designed for freelancers</span>
+  </p>
+
+    <div class="contact-container">
+
+      <!-- Left Contact Form -->
+      <div class="contact-form">
+        <h3>Contact Us</h3>
+        <form>
+          <input type="text" placeholder="Your Name" required>
+          <input type="email" placeholder="Your Email" required>
+          <textarea placeholder="Your Message" required></textarea>
+          <button type="submit">Send</button>
+        </form>
+      </div>
+
+      <!-- Right Contact Details -->
+      <div class="contact-details">
+        <div class="info">
+          <div>
+            <i class="fas fa-map-marker-alt"></i>
+            <p>6386 Spring St undefined Anchorage, <br> Georgia 12473 United States</p>
+          </div>
+          <div>
+            <i class="fas fa-phone-alt"></i>
+            <p>(843) 555-0130</p>
+          </div>
+          <div>
+            <i class="fas fa-envelope"></i>
+            <p>willie.jennings@example.com</p>
+          </div>
+        </div>
+
+        <div class="map">
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.0209081444297!2d-122.41941548468156!3d37.774929779759534!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085808d6d1b0a8b%3A0x8d9e64f5eae5e9bf!2sSan%20Francisco%20City%20Hall!5e0!3m2!1sen!2sus!4v1673384738397!5m2!1sen!2sus" 
+            width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+
+        <div class="social">
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+<footer style="background: #252B42; color: white; padding: 60px 20px;">
+  <div class="footer-container" style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 40px; justify-content: space-between;">
+    
+    <div class="footer-column" style="min-width: 150px;">
+      <h4 style="font-size: 16px; margin-bottom: 20px;">Pages</h4>
+      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px;">
+        <li><a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none;">Home</a></li>
+        <li><a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none;">Features</a></li>
+        <li><a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none;">Partners</a></li>
+        <li><a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none;">Pricing</a></li>
+        <li><a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none;">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-column" style="min-width: 150px;">
+      <h4 style="font-size: 16px; margin-bottom: 20px;">Tomothy</h4>
+      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px;">
+        <li><a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none;">Eleanor Edwards</a></li>
+        <li><a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none;">Ted Robertson</a></li>
+        <li><a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none;">Annette Russell</a></li>
+        <li><a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none;">Jennie Mckinney</a></li>
+        <li><a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none;">Gloria Richards</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-column" style="min-width: 150px;">
+      <h4 style="font-size: 16px; margin-bottom: 20px;">Jane Black</h4>
+      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px;">
+        <li><a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none;">Philip Jones</a></li>
+        <li><a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none;">Product</a></li>
+        <li><a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none;">Colleen Russell</a></li>
+        <li><a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none;">Marvin Hawkins</a></li>
+        <li><a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none;">Bruce Simmons</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-column" style="min-width: 200px;">
+      <div class="contact-info" style="margin-bottom: 30px;">
+        <p style="display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,0.7); margin: 0 0 12px 0;">
+          <i class="fas fa-map-marker-alt"></i> 7480 Mistwood Hollow
+        </p>
+        <p style="display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,0.7); margin: 0;">
+          <i class="fas fa-phone"></i> (239) 555-0108
+        </p>
+      </div>
+      <div class="social-icons" style="display: flex; gap: 20px;">
+        <a href="#" style="color: white; font-size: 20px;"><i class="fab fa-twitter"></i></a>
+        <a href="#" style="color: white; font-size: 20px;"><i class="fab fa-facebook"></i></a>
+        <a href="#" style="color: white; font-size: 20px;"><i class="fab fa-linkedin"></i></a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+  <script>
+    function playVideo() {
+      const placeholder = document.querySelector('.video-placeholder');
+      const iframe = document.getElementById('youtube-video');
+      
+      placeholder.style.display = 'none';
+      iframe.style.display = 'block';
+    }
+    // Testimonial Carousel Auto Slide
+let currentIndex = 0;
+const testimonials = document.querySelectorAll(".testimonial");
+const dots = document.querySelectorAll(".dot");
+
+function showTestimonial(index) {
+  testimonials.forEach((t, i) => {
+    t.classList.remove("active");
+    dots[i].classList.remove("active");
+  });
+  testimonials[index].classList.add("active");
+  dots[index].classList.add("active");
+}
+
+function nextTestimonial() {
+  currentIndex = (currentIndex + 1) % testimonials.length;
+  showTestimonial(currentIndex);
+}
+
+// Auto play every 5 seconds
+setInterval(nextTestimonial, 5000);
+
+// Dot navigation
+dots.forEach((dot, i) => {
+  dot.addEventListener("click", () => {
+    currentIndex = i;
+    showTestimonial(i);
+  });
+});
+  </script>
+</body>
+</html>
